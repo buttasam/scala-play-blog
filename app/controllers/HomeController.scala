@@ -1,12 +1,12 @@
 package controllers
 
 import javax.inject._
-import models.UserRepo
+import models.repository.UserRepository
 import play.api.mvc._
 
 
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents, userRepo: UserRepo) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents, userRepo: UserRepository) extends AbstractController(cc) {
 
   def index() = Action {
     // FIXME - just example

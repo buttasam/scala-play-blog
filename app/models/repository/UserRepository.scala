@@ -1,22 +1,16 @@
-package models
+package models.repository
 
-import anorm.SqlParser._
-import anorm._
+import anorm.{Macro, RowParser, _}
 import javax.inject.Inject
+import models.entity.User
 import play.api.db.Database
 
 
-class UserRepo @Inject()(db: Database) {
+class UserRepository @Inject()(db: Database) {
 
   val tableName = "user"
 
-  val parser: RowParser[User] = {
-      int("id") ~
-      str("email") map {
-      case id ~ email =>
-        User(id, email)
-    }
-  }
+  val parser: RowParser[User] = Macro.namedParser[User]
 
   def findById(id: Long): Option[User] = {
     val selectQuery = s"SELECT * FROM $tableName WHERE id = {id}"
