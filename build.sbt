@@ -14,3 +14,5 @@ libraryDependencies += evolutions
 libraryDependencies += "com.h2database" % "h2" % "1.4.196"
 libraryDependencies += "org.playframework.anorm" %% "anorm" % "2.6.1"
 libraryDependencies += "mysql" % "mysql-connector-java" % "6.0.6"
+
+libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
