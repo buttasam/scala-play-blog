@@ -1,30 +1,33 @@
+@import helper._
+@import models.form.LoginForm
+@(loginForm: Form[LoginForm])(implicit request: RequestHeader, messages: Messages)
+
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html lang="cs">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Feedup - přihlášení</title>
+        <title>Feedup - přihlášení</title>
 
-      <!-- Bootstrap core CSS -->
-    <link href="assets/stylesheets/bootstrap.min.css" rel="stylesheet">
+            <!-- Bootstrap core CSS -->
+        <link href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")" rel="stylesheet">
 
-      <!-- Custom styles for this template -->
-    <link href="assets/stylesheets/signin.css" rel="stylesheet">
+            <!-- Custom styles for this template -->
+        <link href="@routes.Assets.versioned("stylesheets/signin.css")" rel="stylesheet">
 
-  </head>
+    </head>
 
-  <body class="text-center">
-    <form class="form-signin">
-      <h1 class="h3 mb-3 font-weight-normal">Přihlášení</h1>
-      <input type="text" id="inputEmail" class="form-control" placeholder="Jméno" required autofocus>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Heslo" required>
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Trvalé přihlášení
-        </label>
-      </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Přihlásit</button>
-    </form>
-  </body>
+    <body class="text-center">
+    @views.html.helper.form(action = routes.LoginController.loginFormPost(), 'class -> "form-signin") {
+        <h1 class="h3 mb-3 font-weight-normal">Přihlášení</h1>
+
+        @CSRF.formField
+        @inputText(loginForm("name"), 'class -> "form-control", '_label -> "Jméno")
+        @inputPassword(loginForm("password"), 'class -> "form-control", '_label -> "Heslo")
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Přihlásit</button>
+    }
+
+    </body>
 </html>
