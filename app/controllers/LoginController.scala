@@ -14,8 +14,15 @@ class LoginController @Inject()(cc: ControllerComponents) extends AbstractContro
 
   def loginFormPost() = Action { implicit request =>
     val formData: LoginForm = LoginForm.loginForm.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
-    Ok(formData.toString) // TODO
+    // TODO - login user
+    Redirect(routes.HomeController.index())
+      .withSession(models.Global.SESSION_USERNAME_KEY -> formData.name)
   }
 
+
+  def logout = Action { implicit request: Request[AnyContent] =>
+    Redirect(routes.LoginController.login())
+      .withNewSession
+  }
 
 }
