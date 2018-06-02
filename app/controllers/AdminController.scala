@@ -9,6 +9,15 @@ import play.api.mvc._
 class AdminController @Inject()(cc: ControllerComponents, authAction: AuthenticatedAction) extends AbstractController(cc) {
 
   def index() = authAction {
-    Ok(views.html.admin())
+    Ok(views.html.adminIndex())
   }
+
+  def blog() = authAction {
+    Ok(views.html.adminBlog())
+  }
+
+  def contact() = authAction {
+    Ok(views.html.adminContact())
+  }
+
 }
