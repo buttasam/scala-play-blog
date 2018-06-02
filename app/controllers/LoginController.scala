@@ -2,10 +2,11 @@ package controllers
 
 import javax.inject._
 import models.form.LoginForm
+import models.service.LoginService
 import play.api.mvc._
 
 @Singleton
-class LoginController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with play.api.i18n.I18nSupport {
+class LoginController @Inject()(cc: ControllerComponents, loginService: LoginService) extends AbstractController(cc) with play.api.i18n.I18nSupport {
 
 
   def login() = Action { implicit request: Request[AnyContent] =>
@@ -13,10 +14,19 @@ class LoginController @Inject()(cc: ControllerComponents) extends AbstractContro
   }
 
   def loginFormPost() = Action { implicit request =>
-    val formData: LoginForm = LoginForm.loginForm.bindFromRequest.get // Careful: BasicForm.form.bindFromRequest returns an Option
-    // TODO - login user
-    Redirect(routes.HomeController.index())
-      .withSession(models.Global.SESSION_USERNAME_KEY -> formData.name)
+    LoginForm.loginForm.bindFromRequest.fold(
+      _ => {
+        BadRequest
+      },
+      data => {
+        if (loginService.verifyLogin(data.name, data.password)) {
+          Redirect(routes.HomeController.index())
+            .withSession(models.Global.SESSION_USERNAME_KEY -> data.name)
+        } else {
+          Redirect(routes.LoginController.login())
+        }
+      }
+    )
   }
 
 
