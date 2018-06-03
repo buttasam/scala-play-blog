@@ -1,10 +1,11 @@
 @import helper._
 @import models.form.ArticleForm
-@(articleForm: Form[ArticleForm])(implicit request: RequestHeader, messages: Messages)
+@import models.entity.Article
+@(articleForm: Form[ArticleForm], articles: List[Article])(implicit request: RequestHeader, messages: Messages)
 @adminMain("Admin") {
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Blog</h1>
+        <h1 class="display-4">Články</h1>
     </div>
 
     <main role="main" class="container">
@@ -27,12 +28,16 @@
             <thead class="thead-light">
                 <tr>
                     <th scope="col">Titulek</th>
+                    <th scope="col">Akce</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Článek 1</td>
-                </tr>
+                @for(article <- articles) {
+                    <tr>
+                        <td>@article.title</td>
+                        <td><a href="#" class="btn btn-danger">Smazat</a></td>
+                    </tr>
+                }
             </tbody>
         </table>
     </main>

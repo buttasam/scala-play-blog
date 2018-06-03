@@ -15,7 +15,7 @@ class AdminController @Inject()(articleRepository: ArticleRepository, cc: Contro
   }
 
   def blog() = authAction { implicit request: Request[AnyContent] =>
-    Ok(views.html.adminBlog(ArticleForm.articleForm))
+    Ok(views.html.adminBlog(ArticleForm.articleForm, articleRepository.findAll()))
   }
 
   def contact() = authAction {

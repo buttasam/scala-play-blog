@@ -13,6 +13,13 @@ class ArticleRepository @Inject()(db: Database) {
 
   val parser: RowParser[Article] = Macro.namedParser[Article]
 
+  def findAll(): List[Article] = {
+    val selectQuery = s"SELECT * FROM $tableName WHERE deleted = 0"
+    db.withConnection { implicit connection =>
+      SQL(selectQuery).as(parser.*)
+    }
+  }
+
   def findById(id: Long): Option[Article] = {
     val selectQuery = s"SELECT * FROM $tableName WHERE id = {id}"
     db.withConnection { implicit connection =>
