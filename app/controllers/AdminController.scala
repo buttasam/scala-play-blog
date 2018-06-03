@@ -14,8 +14,21 @@ class AdminController @Inject()(articleRepository: ArticleRepository, cc: Contro
     Ok(views.html.adminIndex())
   }
 
-  def blog() = authAction { implicit request: Request[AnyContent] =>
-    Ok(views.html.adminBlog(ArticleForm.articleForm, articleRepository.findAll()))
+  def blog(articleId : Option[Int]) = authAction { implicit request: Request[AnyContent] =>
+
+    var articleForm = ArticleForm.articleForm
+
+    articleId match {
+      case None => {
+        articleForm = ArticleForm.articleForm
+      }
+      case Some(data) => {
+        val article = articleRepository.findById(data).get
+        articleForm = ArticleForm.articleForm.fill(ArticleForm(article.title, article.perex, article.content))
+      }
+    }
+
+    Ok(views.html.adminBlog(articleForm, articleRepository.findAll()))
   }
 
   def contact() = authAction {
@@ -30,14 +43,14 @@ class AdminController @Inject()(articleRepository: ArticleRepository, cc: Contro
       },
       data => {
         articleRepository.insert(data)
-        Redirect(routes.AdminController.blog())
+        Redirect(routes.AdminController.blog(None))
       }
     )
   }
 
   def deleteArticle(id: Int) = authAction {
     articleRepository.deleteArticle(id)
-    Redirect(routes.AdminController.blog())
+    Redirect(routes.AdminController.blog(None))
   }
 
 }

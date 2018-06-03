@@ -12,7 +12,7 @@ GET         /logout                       controllers.LoginController.logout
 
 # Admin routes
 GET         /admin                        controllers.AdminController.index
-GET         /admin/blog                   controllers.AdminController.blog
+GET         /admin/blog                   controllers.AdminController.blog(articleId: Option[Int])
 GET         /admin/blog/delete/:id        controllers.AdminController.deleteArticle(id: Int)
 GET         /admin/contact                controllers.AdminController.contact
 POST        /admin/blog                   controllers.AdminController.articleFormPost

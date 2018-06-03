@@ -12,7 +12,6 @@
 
 
         @views.html.helper.form(action = routes.AdminController.articleFormPost()) {
-            <h1 class="h3 mb-3 font-weight-normal">Přihlášení</h1>
 
             @CSRF.formField
             @inputText(articleForm("title"), 'class -> "form-control", '_label -> "Titulek")
@@ -35,7 +34,10 @@
                 @for(article <- articles) {
                     <tr>
                         <td>@article.title</td>
-                        <td><a href="@routes.AdminController.deleteArticle(article.id)" class="btn btn-danger">Smazat</a></td>
+                        <td>
+                            <a href="@routes.AdminController.deleteArticle(article.id)" class="btn btn-danger">Smazat</a>
+                            <a href="@routes.AdminController.blog(Some(article.id))" class="btn btn-info">Editovat</a>
+                        </td>
                     </tr>
                 }
             </tbody>
