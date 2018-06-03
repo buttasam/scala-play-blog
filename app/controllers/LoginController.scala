@@ -20,7 +20,7 @@ class LoginController @Inject()(cc: ControllerComponents, loginService: LoginSer
       },
       data => {
         if (loginService.verifyLogin(data.name, data.password)) {
-          Redirect(routes.HomeController.index())
+          Redirect(routes.AdminController.index())
             .withSession(models.Global.SESSION_USERNAME_KEY -> data.name)
         } else {
           Redirect(routes.LoginController.login())
