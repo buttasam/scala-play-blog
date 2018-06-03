@@ -3,11 +3,12 @@ package controllers
 import controllers.action.AuthenticatedAction
 import javax.inject._
 import models.form.ArticleForm
+import models.repository.ArticleRepository
 import play.api.mvc._
 
 
 @Singleton
-class AdminController @Inject()(cc: ControllerComponents, authAction: AuthenticatedAction) extends AbstractController(cc) with play.api.i18n.I18nSupport {
+class AdminController @Inject()(articleRepository: ArticleRepository, cc: ControllerComponents, authAction: AuthenticatedAction) extends AbstractController(cc) with play.api.i18n.I18nSupport {
 
   def index() = authAction {
     Ok(views.html.adminIndex())
@@ -28,6 +29,7 @@ class AdminController @Inject()(cc: ControllerComponents, authAction: Authentica
         BadRequest
       },
       data => {
+        articleRepository.insert(data)
         Ok(data.toString)
       }
     )
