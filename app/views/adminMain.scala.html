@@ -26,7 +26,8 @@
                 <a href="@routes.AdminController.index">Administrace</a>
             </h5>
             <nav class="my-2 my-md-0 mr-md-3">
-                <a class="p-2 text-dark" href="@routes.AdminController.blog(None)">Články</a>
+                <a class="p-2 text-dark" href="@routes.AdminController.articleList()">Články</a>
+                <a class="p-2 text-dark" href="@routes.AdminController.articleForm(None)">Přidat článek</a>
                 <a class="p-2 text-dark" href="@routes.AdminController.contact">Kontakt</a>
             </nav>
             <a class="btn btn-outline-primary" href="@routes.LoginController.logout()">Odhlásit</a>

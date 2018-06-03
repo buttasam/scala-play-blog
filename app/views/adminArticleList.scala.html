@@ -1,0 +1,32 @@
+@import models.entity.Article
+@(articles: List[Article])(implicit request: RequestHeader, messages: Messages)
+@adminMain("Admin") {
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Články - přehled</h1>
+    </div>
+
+    <main role="main" class="container">
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Titulek</th>
+                    <th scope="col">Akce</th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(article <- articles) {
+                <tr>
+                    <td>@article.title</td>
+                    <td>
+                        <a href="@routes.AdminController.deleteArticle(article.id)" class="btn btn-danger">Smazat</a>
+                        <a href="@routes.AdminController.articleForm(Some(article.id))" class="btn btn-info">Editovat</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </main>
+
+}
