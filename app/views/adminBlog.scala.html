@@ -35,7 +35,7 @@
                 @for(article <- articles) {
                     <tr>
                         <td>@article.title</td>
-                        <td><a href="#" class="btn btn-danger">Smazat</a></td>
+                        <td><a href="@routes.AdminController.deleteArticle(article.id)" class="btn btn-danger">Smazat</a></td>
                     </tr>
                 }
             </tbody>

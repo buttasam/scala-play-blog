@@ -30,8 +30,14 @@ class AdminController @Inject()(articleRepository: ArticleRepository, cc: Contro
       },
       data => {
         articleRepository.insert(data)
-        Ok(data.toString)
+        Redirect(routes.AdminController.blog())
       }
     )
   }
+
+  def deleteArticle(id: Int) = authAction {
+    articleRepository.deleteArticle(id)
+    Redirect(routes.AdminController.blog())
+  }
+
 }
