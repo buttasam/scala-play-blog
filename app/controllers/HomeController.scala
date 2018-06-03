@@ -13,7 +13,9 @@ class HomeController @Inject()(cc: ControllerComponents, articleRepository: Arti
   }
 
 
-  def article() = Action {
-    Ok(views.html.article())
+  def article(id: Int) = Action {
+    val article = articleRepository.findById(id).get
+
+    Ok(views.html.article(article))
   }
 }
