@@ -1,6 +1,6 @@
 @import helper._
 @import models.form.ArticleForm
-@(articleForm: Form[ArticleForm])(implicit request: RequestHeader, messages: Messages)
+@(articleForm: Form[ArticleForm], articleId : Option[Int])(implicit request: RequestHeader, messages: Messages)
 @adminMain("Admin") {
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -10,7 +10,7 @@
     <main role="main" class="container">
 
 
-    @views.html.helper.form(action = routes.AdminController.articleFormPost()) {
+    @views.html.helper.form(action = routes.AdminController.articleFormPost(articleId)) {
 
         @CSRF.formField
         @inputText(articleForm("title"), 'class -> "form-control", '_label -> "Titulek")

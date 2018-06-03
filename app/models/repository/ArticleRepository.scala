@@ -20,6 +20,15 @@ class ArticleRepository @Inject()(db: Database) {
     }
   }
 
+
+  def update(id: Int, articleForm: ArticleForm): Unit = {
+    val selectQuery = s"UPDATE $tableName SET title = {title}, perex = {perex}, content = {content} WHERE id = {id}"
+    db.withConnection { implicit connection =>
+      SQL(selectQuery).on('title -> articleForm.title, 'perex -> articleForm.perex, 'content -> articleForm.content, 'id -> id).executeUpdate()
+    }
+  }
+
+
   def findAll(): List[Article] = {
     val selectQuery = s"SELECT * FROM $tableName WHERE deleted = 0"
     db.withConnection { implicit connection =>

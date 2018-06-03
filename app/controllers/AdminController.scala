@@ -18,7 +18,7 @@ class AdminController @Inject()(articleRepository: ArticleRepository, cc: Contro
     Ok(views.html.adminArticleList(articleRepository.findAll()))
   }
 
-  def articleForm(articleId : Option[Int]) = authAction { implicit request: Request[AnyContent] =>
+  def articleForm(articleId: Option[Int]) = authAction { implicit request: Request[AnyContent] =>
 
     var articleForm = ArticleForm.articleForm
 
@@ -32,21 +32,25 @@ class AdminController @Inject()(articleRepository: ArticleRepository, cc: Contro
       }
     }
 
-    Ok(views.html.adminArticleForm(articleForm))
+    Ok(views.html.adminArticleForm(articleForm, articleId))
   }
 
   def contact() = authAction {
     Ok(views.html.adminContact())
   }
 
-  def articleFormPost() = Action { implicit request =>
+  def articleFormPost(articleId: Option[Int]) = Action { implicit request =>
     ArticleForm.articleForm.bindFromRequest.fold(
       error => {
         println(error)
         BadRequest
       },
       data => {
-        articleRepository.insert(data)
+        if (articleId.isEmpty) {
+          articleRepository.insert(data)
+        } else {
+          articleRepository.update(articleId.get, data)
+        }
         Redirect(routes.AdminController.articleList())
       }
     )
