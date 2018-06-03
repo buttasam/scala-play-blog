@@ -6,6 +6,7 @@
 # An example controller showing a sample home page
 GET         /                                controllers.HomeController.index
 GET         /login                           controllers.LoginController.login
+GET         /article                         controllers.HomeController.article
 
 POST        /login                           controllers.LoginController.loginFormPost
 GET         /logout                          controllers.LoginController.logout

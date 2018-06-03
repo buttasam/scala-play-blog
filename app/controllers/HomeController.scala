@@ -1,17 +1,19 @@
 package controllers
 
 import javax.inject._
-import models.repository.UserRepository
+import models.repository.ArticleRepository
 import play.api.mvc._
 
 
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents, userRepo: UserRepository) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents, articleRepository: ArticleRepository) extends AbstractController(cc) {
 
   def index() = Action {
-    // FIXME - just example
-    val user = userRepo.findById(1)
-    println(user.get.email)
-    Ok(views.html.index())
+    Ok(views.html.index(articleRepository.findAll()))
+  }
+
+
+  def article() = Action {
+    Ok(views.html.article())
   }
 }
