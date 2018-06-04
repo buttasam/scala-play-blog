@@ -24,13 +24,10 @@ class AdminController @Inject()(articleRepository: ArticleRepository, contactRep
     var articleForm = ArticleForm.articleForm
 
     articleId match {
-      case None => {
-        articleForm = ArticleForm.articleForm
-      }
-      case Some(data) => {
+      case None => articleForm = ArticleForm.articleForm
+      case Some(data) =>
         val article = articleRepository.findById(data).get
         articleForm = ArticleForm.articleForm.fill(ArticleForm(article.title, article.perex, article.content))
-      }
     }
 
     Ok(views.html.adminArticleForm(articleForm, articleId))
@@ -40,18 +37,18 @@ class AdminController @Inject()(articleRepository: ArticleRepository, contactRep
     Ok(views.html.adminContact(contactRepository.findAll()))
   }
 
-  def articleFormPost(articleId: Option[Int]) = Action { implicit request =>
+  def articleFormPost(articleIdOpt: Option[Int]) = Action { implicit request =>
     ArticleForm.articleForm.bindFromRequest.fold(
       error => {
         println(error)
         BadRequest
       },
       data => {
-        if (articleId.isEmpty) {
-          articleRepository.insert(data)
-        } else {
-          articleRepository.update(articleId.get, data)
+        articleIdOpt match {
+          case None => articleRepository.insert(data)
+          case Some(id) => articleRepository.update(id, data)
         }
+
         Redirect(routes.AdminController.articleList())
       }
     )

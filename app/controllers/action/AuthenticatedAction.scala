@@ -20,7 +20,7 @@ class AuthenticatedAction @Inject()(parser: BodyParsers.Default)(implicit ec: Ex
     maybeUsername match {
       case None =>
         Future.successful(Redirect(routes.LoginController.login()))
-      case Some(u) =>
+      case Some(_) =>
         block(request)
     }
   }
