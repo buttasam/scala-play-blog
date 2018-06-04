@@ -1,6 +1,8 @@
+@import helper._
 @import models.entity.Article
+@import models.form.ContactForm
+@(articles: List[Article], contactForm: Form[ContactForm])(implicit request: RequestHeader, messages: Messages)
 
-@(articles: List[Article])
 
 @main("Feedup aplikace") {
 
@@ -125,17 +127,15 @@
             </div>
             <div class="row">
                 <div class="col-md-8 mx-auto">
-                    <form>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
+                    @views.html.helper.form(action = routes.HomeController.contactFormPost()) {
+
+                        @CSRF.formField
+                        @inputText(contactForm("email"), 'class -> "form-control", '_label -> "E-mail")
+                        @textarea(contactForm("message"), 'class -> "form-control", '_label -> "Zpráva")
+
                         <button type="submit" class="btn btn-info btn-lg">Submit</button>
-                    </form>
+
+                    }
                 </div>
             </div>
         </div>
