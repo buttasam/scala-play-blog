@@ -2,12 +2,12 @@ package controllers
 
 import javax.inject._
 import models.form.ContactForm
-import models.repository.ArticleRepository
+import models.repository.{ArticleRepository, ContactRepository}
 import play.api.mvc._
 
 
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents, articleRepository: ArticleRepository) extends AbstractController(cc) with play.api.i18n.I18nSupport {
+class HomeController @Inject()(articleRepository: ArticleRepository, contactRepository: ContactRepository, cc: ControllerComponents) extends AbstractController(cc) with play.api.i18n.I18nSupport {
 
   def index() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.index(articleRepository.findAll(), ContactForm.contactForm))
@@ -16,19 +16,19 @@ class HomeController @Inject()(cc: ControllerComponents, articleRepository: Arti
 
   def contactFormPost() = Action { implicit request =>
     ContactForm.contactForm.bindFromRequest.fold(
-      error => {
-        println(error)
+      _ => {
         BadRequest
       },
       data => {
-        Ok(data.toString)
+        contactRepository.insert(data)
+        Redirect(routes.HomeController.index())
       }
     )
   }
 
 
   def article(id: Int) = Action {
-    val article = articleRepository.findById(id).get
+    val article = articleRepository.findById(id).get // FIXME
 
     Ok(views.html.article(article))
   }

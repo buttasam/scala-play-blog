@@ -1,7 +1,7 @@
-@()
+@import models.entity.Contact
+@(contacts: List[Contact])
 
 @adminMain("Admin") {
-
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 class="display-4">Kontaktní formulář</h1>
@@ -12,14 +12,16 @@
             <thead class="thead-light">
                 <tr>
                     <th scope="col">E-mail</th>
-                    <th scope="col">Text</th>
+                    <th scope="col">Zpráva</th>
                 </tr>
             </thead>
             <tbody>
+            @for(contact <- contacts) {
                 <tr>
-                    <td>test.cz</td>
-                    <td>Data</td>
+                    <td>@contact.email</td>
+                    <td>@contact.message</td>
                 </tr>
+            }
             </tbody>
         </table>
     </main>

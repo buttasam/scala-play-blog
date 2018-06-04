@@ -3,12 +3,13 @@ package controllers
 import controllers.action.AuthenticatedAction
 import javax.inject._
 import models.form.ArticleForm
-import models.repository.ArticleRepository
+import models.repository.{ArticleRepository, ContactRepository}
 import play.api.mvc._
 
 
 @Singleton
-class AdminController @Inject()(articleRepository: ArticleRepository, cc: ControllerComponents, authAction: AuthenticatedAction) extends AbstractController(cc) with play.api.i18n.I18nSupport {
+class AdminController @Inject()(articleRepository: ArticleRepository, contactRepository: ContactRepository,
+                                cc: ControllerComponents, authAction: AuthenticatedAction) extends AbstractController(cc) with play.api.i18n.I18nSupport {
 
   def index() = authAction {
     Ok(views.html.adminIndex())
@@ -36,7 +37,7 @@ class AdminController @Inject()(articleRepository: ArticleRepository, cc: Contro
   }
 
   def contact() = authAction {
-    Ok(views.html.adminContact())
+    Ok(views.html.adminContact(contactRepository.findAll()))
   }
 
   def articleFormPost(articleId: Option[Int]) = Action { implicit request =>
