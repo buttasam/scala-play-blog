@@ -1,1 +1,1 @@
-# Feedup web
+# Scala play blog
